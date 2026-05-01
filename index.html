@@ -451,38 +451,47 @@
 
         const form = document.querySelector(".request-form");
 
-        // Lock form to outgoing height and clip overflow
-        form.style.height   = outEl.offsetHeight + "px";
+        // ① Measure outgoing height while it's still in normal flow
+        const outHeight = outEl.offsetHeight;
+
+        // ② Lock the form height BEFORE pulling outEl out of flow (prevents grid collapse)
+        form.style.height   = outHeight + "px";
         form.style.overflow = "hidden";
 
-        // Lift outgoing out of normal flow so it doesn't push layout
-        outEl.style.position    = "absolute";
-        outEl.style.top         = "0";
-        outEl.style.left        = "0";
-        outEl.style.width       = "100%";
-        outEl.style.zIndex      = "1";
+        // ③ Both panels go absolutely-positioned so grid gap never shifts
+        const absPanel = (el, z) => {
+          el.style.position    = "absolute";
+          el.style.top         = "0";
+          el.style.left        = "0";
+          el.style.width       = "100%";
+          el.style.zIndex      = String(z);
+        };
+        absPanel(outEl, 1);
         outEl.style.pointerEvents = "none";
 
-        // Reveal incoming off-screen (still in flow for height calculation)
-        inEl.hidden           = false;
-        inEl.style.zIndex     = "2";
+        // ④ Prepare incoming with its off-screen transform while still hidden — no flash
+        absPanel(inEl, 2);
         inEl.style.willChange = "transform";
         inEl.style.transform  = direction === "forward" ? "translateX(100%)" : "translateX(-100%)";
 
-        // Force reflow so initial transform is committed before transition starts
+        // ⑤ Reveal incoming (transform already applied — nothing to flash)
+        inEl.hidden = false;
+
+        // ⑥ Single reflow: commits all layout before any transition
         inEl.offsetHeight; // eslint-disable-line no-unused-expressions
 
-        // Attach transitions
+        // ⑦ Measure incoming height (absolute + width:100% gives correct content height)
+        const inHeight = inEl.offsetHeight;
+
+        // ⑧ Attach transitions
         outEl.style.transition = `transform ${SLIDE_DUR}ms ${SLIDE_EASE}`;
         inEl.style.transition  = `transform ${SLIDE_DUR}ms ${SLIDE_EASE}`;
         form.style.transition  = `height ${SLIDE_DUR}ms ${SLIDE_EASE}`;
 
-        // Slide both panels
+        // ⑨ Animate both panels and grow/shrink the form
         outEl.style.transform = direction === "forward" ? "translateX(-100%)" : "translateX(100%)";
         inEl.style.transform  = "translateX(0)";
-
-        // Animate form height to incoming content height
-        form.style.height = inEl.scrollHeight + "px";
+        form.style.height     = inHeight + "px";
 
         setTimeout(() => {
           // Clean up outgoing
