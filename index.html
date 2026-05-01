@@ -424,6 +424,32 @@
 
         </section>
 
+        <!-- ══════════════════════════════════════════
+             RESCHEDULE NOTICE  (placeholder — no self-serve flow yet)
+        ══════════════════════════════════════════ -->
+        <section class="booking-reschedule-notice" id="booking-reschedule-notice" hidden aria-label="Reschedule a session">
+
+          <header class="booking-nav">
+            <button class="booking-nav-back" id="reschedule-notice-back" type="button" aria-label="Back">‹</button>
+            <div class="booking-nav-identity">
+              <span class="booking-nav-name">Maya Thompson</span>
+              <span class="booking-nav-role">Junior Development Coach</span>
+            </div>
+            <div class="booking-nav-trailing" aria-hidden="true"></div>
+          </header>
+
+          <div class="reschedule-notice-body">
+            <div class="reschedule-notice-icon" aria-hidden="true">
+              <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M23.5 14A9.5 9.5 0 1 1 14 4.5a9.45 9.45 0 0 1 6.06 2.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 2.5 23.5 6 19 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </div>
+            <h2 class="reschedule-notice-heading">Need to reschedule?</h2>
+            <p class="reschedule-notice-desc">Self-serve rescheduling is coming soon. For now, message Coach Maya directly and she'll sort out a new time with you.</p>
+            <a class="reschedule-notice-cta" href="sms:+10000000000">Message Coach Maya</a>
+            <button class="reschedule-notice-back-link" id="reschedule-notice-back2" type="button">← Back to home</button>
+          </div>
+
+        </section>
+
       </section>
     </main>
 
@@ -437,15 +463,22 @@
         }
       });
 
-      // ── Landing ↔ Form ↔ Success toggle ──────────────────────────
-      const landingEl   = document.getElementById("booking-landing");
-      const formShellEl = document.getElementById("booking-form-shell");
-      const successEl   = document.getElementById("booking-success");
+      // ── Landing ↔ Form ↔ Success ↔ Reschedule Notice toggle ─────
+      const landingEl          = document.getElementById("booking-landing");
+      const formShellEl        = document.getElementById("booking-form-shell");
+      const successEl          = document.getElementById("booking-success");
+      const rescheduleNoticeEl = document.getElementById("booking-reschedule-notice");
+
+      function hideAll() {
+        landingEl.hidden          = true;
+        formShellEl.hidden        = true;
+        successEl.hidden          = true;
+        rescheduleNoticeEl.hidden = true;
+      }
 
       function showLanding() {
-        landingEl.hidden   = false;
-        formShellEl.hidden = true;
-        successEl.hidden   = true;
+        hideAll();
+        landingEl.hidden          = false;
         rescheduleDirectFlow = false;
         requestType = "";
         window.scrollTo(0, 0);
@@ -464,16 +497,20 @@
         });
         activeRequestStep = targetStep;
 
-        landingEl.hidden   = true;
+        hideAll();
         formShellEl.hidden = false;
-        successEl.hidden   = true;
         refreshButton(targetStep);
       }
 
       function showSuccess() {
-        landingEl.hidden   = true;
-        formShellEl.hidden = true;
-        successEl.hidden   = false;
+        hideAll();
+        successEl.hidden = false;
+        window.scrollTo(0, 0);
+      }
+
+      function showRescheduleNotice() {
+        hideAll();
+        rescheduleNoticeEl.hidden = false;
         window.scrollTo(0, 0);
       }
 
@@ -588,15 +625,18 @@
       });
 
       // Nav bar back: step 1 → landing, step 2+ → previous step
-      // In reschedule direct flow, step 2 is the first step → back goes to landing
       document.getElementById("booking-nav-back").addEventListener("click", () => {
         if (isAnimating) return;
-        if (activeRequestStep === 1 || (rescheduleDirectFlow && activeRequestStep === 2)) {
+        if (activeRequestStep === 1) {
           showLanding();
         } else {
           showRequestStep(activeRequestStep - 1, "back");
         }
       });
+
+      // Reschedule notice back buttons
+      document.getElementById("reschedule-notice-back").addEventListener("click", showLanding);
+      document.getElementById("reschedule-notice-back2").addEventListener("click", showLanding);
 
       // ── Request type tracking ────────────────────────────────────
       let requestType = "";
@@ -623,11 +663,7 @@
       }
 
       function startReschedule() {
-        rescheduleDirectFlow = true;
-        requestType = "reschedule";
-        activateStep3Mode();
-        showForm(2);
-        updateCounters();
+        showRescheduleNotice();
       }
 
       const STEP3_HEADINGS = {

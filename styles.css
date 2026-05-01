@@ -32,6 +32,12 @@
   box-sizing: border-box;
 }
 
+/* Force antialiasing on every element so font-family overrides don't revert to subpixel */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
@@ -41,7 +47,6 @@ body {
     radial-gradient(circle at 20% 10%, rgba(200, 255, 87, 0.25), transparent 24rem),
     radial-gradient(circle at 80% 20%, rgba(11, 122, 99, 0.16), transparent 22rem),
     var(--paper);
-  /* Smooth text on dark backgrounds */
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -265,7 +270,7 @@ button {
   padding: 0 24px;
   background: transparent;
   color: rgba(255, 255, 251, 0.7);
-  font-size: 15px;
+  font-size: 17px;
   font-weight: 600;
   cursor: pointer;
   transition: background 0.12s, border-color 0.12s, color 0.12s;
@@ -287,7 +292,7 @@ button {
   background: var(--lime);
   color: var(--court-900);
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   transition: opacity 0.12s;
 }
@@ -306,7 +311,7 @@ button {
   background: transparent;
   color: #fffffb;
   font-size: 17px;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   transition: background 0.12s;
 }
@@ -3626,4 +3631,101 @@ button {
   border-color: rgba(255, 255, 251, 0.28);
   color: #fffffb;
   background: rgba(255, 255, 251, 0.06);
+}
+
+/* ══════════════════════════════════════════════════════════════
+   RESCHEDULE NOTICE  (placeholder screen)
+══════════════════════════════════════════════════════════════ */
+
+.booking-reschedule-notice {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+  background: var(--court-900);
+}
+
+.booking-reschedule-notice[hidden] {
+  display: none !important;
+}
+
+.reschedule-notice-body {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 48px 28px 56px;
+  text-align: center;
+  gap: 0;
+}
+
+.reschedule-notice-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 20px;
+  background: rgba(255, 255, 251, 0.07);
+  display: grid;
+  place-items: center;
+  color: rgba(255, 255, 251, 0.5);
+  margin-bottom: 24px;
+}
+
+.reschedule-notice-heading {
+  margin: 0 0 12px;
+  font-size: 26px;
+  font-weight: 700;
+  color: #fffffb;
+  letter-spacing: -0.3px;
+}
+
+.reschedule-notice-desc {
+  margin: 0 0 36px;
+  font-size: 15px;
+  font-weight: 400;
+  line-height: 1.6;
+  color: rgba(255, 255, 251, 0.5);
+  max-width: 280px;
+}
+
+.reschedule-notice-cta {
+  display: block;
+  width: 100%;
+  min-height: 56px;
+  border: 0;
+  border-radius: 22px;
+  padding: 0 24px;
+  background: var(--lime);
+  color: var(--court-900);
+  font-family: inherit;
+  font-size: 17px;
+  font-weight: 600;
+  text-decoration: none;
+  line-height: 56px;
+  cursor: pointer;
+  transition: opacity 0.12s;
+  margin-bottom: 12px;
+}
+
+.reschedule-notice-cta:hover {
+  opacity: 0.9;
+}
+
+.reschedule-notice-back-link {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  border: 0;
+  border-radius: 22px;
+  padding: 0 24px;
+  background: transparent;
+  color: rgba(255, 255, 251, 0.45);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.12s;
+}
+
+.reschedule-notice-back-link:hover {
+  color: rgba(255, 255, 251, 0.7);
 }
