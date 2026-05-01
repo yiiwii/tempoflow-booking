@@ -257,10 +257,7 @@ button {
 }
 
 .booking-cta-secondary {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 8px;
+  display: block;
   width: 100%;
   min-height: 52px;
   border: 1.5px solid rgba(255, 255, 251, 0.18);
