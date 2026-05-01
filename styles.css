@@ -309,14 +309,17 @@ button {
   display: none !important;
 }
 
-/* Compact iOS-style navigation bar */
+/* Compact iOS-style navigation bar — fixed so it stays over scrolling content */
 .booking-nav {
   display: grid;
   grid-template-columns: 44px 1fr 44px;
   align-items: center;
   gap: 8px;
   padding: 12px 16px 10px;
-  background: linear-gradient(180deg, rgba(245, 245, 245, 0.16) 0%, rgba(245, 245, 245, 0) 100%);
+  background: var(--court-900);
+  position: sticky;
+  top: 0;
+  z-index: 10;
 }
 
 .booking-nav-back {

@@ -578,11 +578,6 @@
           if (activeRequestStep === 3) refreshButton(3);
         });
       });
-      // Delegate backup card changes to the list container
-      backupList.addEventListener("change", () => {
-        if (activeRequestStep === 3) refreshButton(3);
-      });
-
       // Step 4: contact fields
       ["name", "phone", "email"].forEach((field) => {
         document.querySelector(`[name="${field}"]`).addEventListener("input", () => {
@@ -592,9 +587,14 @@
 
       // ── Backup times: add / remove ────────────────────────────────
       const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
-      const backupList  = document.querySelector("#backup-times-list");
+      const backupList   = document.querySelector("#backup-times-list");
       const addBackupBtn = document.querySelector("#add-backup-btn");
-      const MAX_BACKUPS = 4;
+      const MAX_BACKUPS  = 4;
+
+      // Delegate backup card changes to the list container (must be after backupList is declared)
+      backupList.addEventListener("change", () => {
+        if (activeRequestStep === 3) refreshButton(3);
+      });
 
       function dayOptions() {
         return `<option value="" disabled selected>Select a day</option>` +
