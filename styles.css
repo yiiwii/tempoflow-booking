@@ -1113,6 +1113,57 @@ button {
   color: var(--court-500);
 }
 
+/* ── Suggest a place form ───────────────────────────── */
+.suggest-address-hint {
+  display: block;
+  margin-top: 6px;
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--placeholder);
+}
+
+.suggest-confirm-btn {
+  display: block;
+  width: 100%;
+  min-height: 48px;
+  margin-top: 4px;
+  border: 0;
+  border-radius: 14px;
+  padding: 0 16px;
+  background: var(--lime);
+  color: var(--court-900);
+  font-family: inherit;
+  font-size: 15px;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.12s;
+}
+
+.suggest-confirm-btn:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.suggest-confirm-btn:not(:disabled):hover {
+  opacity: 0.88;
+}
+
+/* Suggested court items get a subtle "Suggested" tag */
+.court-list-item--suggested .court-list-info em::before {
+  content: "Suggested · ";
+  font-style: normal;
+  font-size: 11px;
+  font-weight: 700;
+  color: var(--court-500);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.court-list-item--suggested .court-list-info em {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
 
 .option-chip-group {
   display: grid;

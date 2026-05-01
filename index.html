@@ -881,27 +881,84 @@
       attachRemoveListener(backupList.querySelector(".booking-card"));
       updateRemoveButtons();
 
-      // ── Suggest Another Training Place: show / hide ───────────────
-      const suggestList   = document.querySelector("#suggest-place-list");
-      const addSuggestBtn = document.querySelector("#add-suggest-btn");
+      // ── Suggest Another Training Place ────────────────────────────
+      const suggestContainer = document.querySelector("#suggest-place-list");
+      const addSuggestBtn    = document.querySelector("#add-suggest-btn");
+      const courtList        = document.querySelector(".court-list[aria-label='Court preference']");
+      let   suggestCount     = 0;
 
       addSuggestBtn.addEventListener("click", () => {
-        suggestList.innerHTML = `
+        addSuggestBtn.hidden = true;
+        suggestContainer.innerHTML = `
           <div class="booking-card">
             <div class="booking-card-title-row">
-              <div>
-                <strong class="booking-card-title">Suggest Another Training Place</strong>
-                <span class="booking-card-subtitle">Add the court name, address, or any detail.</span>
-              </div>
-              <button class="booking-card-remove" type="button" aria-label="Remove suggestion">✕</button>
+              <strong class="booking-card-title">Suggest a Place</strong>
+              <button class="booking-card-remove" id="suggest-cancel-btn" type="button" aria-label="Cancel">✕</button>
             </div>
-            <textarea name="court-notes" rows="4" placeholder="Court information"></textarea>
+            <label>Court or facility name
+              <input type="text" id="suggest-name-input" name="suggest-name"
+                placeholder="e.g. Griffith Park Tennis Courts" autocomplete="off" />
+            </label>
+            <label>Address
+              <input type="text" id="suggest-address-input" name="suggest-address"
+                placeholder="Street address, city, zip" autocomplete="street-address" />
+              <span class="suggest-address-hint">Copy from Google Maps for accuracy</span>
+            </label>
+            <button class="suggest-confirm-btn" id="suggest-confirm-btn" type="button" disabled>
+              Add this place
+            </button>
           </div>
         `;
-        addSuggestBtn.hidden = true;
-        suggestList.querySelector(".booking-card-remove").addEventListener("click", () => {
-          suggestList.innerHTML = "";
+
+        const nameInput    = document.getElementById("suggest-name-input");
+        const addressInput = document.getElementById("suggest-address-input");
+        const confirmBtn   = document.getElementById("suggest-confirm-btn");
+        const cancelBtn    = document.getElementById("suggest-cancel-btn");
+
+        // Enable confirm only when both fields have content
+        function syncConfirmBtn() {
+          confirmBtn.disabled = !(nameInput.value.trim() && addressInput.value.trim());
+        }
+        nameInput.addEventListener("input", syncConfirmBtn);
+        addressInput.addEventListener("input", syncConfirmBtn);
+
+        cancelBtn.addEventListener("click", () => {
+          suggestContainer.innerHTML = "";
           addSuggestBtn.hidden = false;
+        });
+
+        confirmBtn.addEventListener("click", () => {
+          const name    = nameInput.value.trim();
+          const address = addressInput.value.trim();
+          if (!name || !address) return;
+
+          suggestCount++;
+          const mapsUrl = `https://maps.google.com/?q=${encodeURIComponent(name + " " + address)}`;
+
+          // Build a new court option identical in structure to existing ones
+          const item = document.createElement("label");
+          item.className = "court-list-item court-list-item--suggested";
+          item.innerHTML = `
+            <input type="checkbox" name="court" value="custom-${suggestCount}" checked />
+            <span class="court-list-check"></span>
+            <span class="court-list-info">
+              <strong>${name}</strong>
+              <span>${address}</span>
+              <em><a href="${mapsUrl}" target="_blank" rel="noopener">View on Google Maps ↗</a></em>
+            </span>
+          `;
+
+          courtList.appendChild(item);
+
+          // Wire new checkbox into step-2 validation
+          item.querySelector("input[type='checkbox']").addEventListener("change", () => {
+            if (activeRequestStep === 2) refreshButton(2);
+          });
+
+          // Reset the form
+          suggestContainer.innerHTML = "";
+          addSuggestBtn.hidden = false;
+          if (activeRequestStep === 2) refreshButton(2);
         });
       });
     </script>
