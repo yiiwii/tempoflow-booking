@@ -230,29 +230,17 @@
                 <span aria-hidden="true">+</span> Add another backup time
               </button>
 
-              <!-- Anything to avoid -->
-              <div class="booking-card">
-                <div class="booking-card-title-row">
-                  <strong class="booking-card-title">Anything to avoid?</strong>
-                  <span class="booking-card-optional">Optional</span>
+              <!-- Open to coach suggestions -->
+              <label class="open-times-card">
+                <div class="open-times-card-content">
+                  <strong>Open to other times</strong>
+                  <span>If none of my preferred times work, Coach Maya can suggest alternatives</span>
                 </div>
-                <label>Day
-                  <select name="avoid-day">
-                    <option value="">—</option>
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
-                  </select>
-                </label>
-                <div class="availability-time-row">
-                  <label>From<input type="time" name="avoid-start" /></label>
-                  <label>To<input type="time" name="avoid-end" /></label>
-                </div>
-              </div>
+                <span class="open-times-toggle" aria-hidden="true">
+                  <input type="checkbox" name="open-to-other-times" />
+                  <span class="open-times-knob"></span>
+                </span>
+              </label>
 
               <div class="request-step-actions">
                 <button class="request-next" type="button" data-next-step>Next</button>
