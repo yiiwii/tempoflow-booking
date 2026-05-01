@@ -178,17 +178,8 @@
                   </div>
                   <span class="booking-card-chip">Choose Best Time</span>
                 </div>
-                <label>Day
-                  <select name="best-day">
-                    <option value="" disabled selected>Select a day</option>
-                    <option>Monday</option>
-                    <option>Tuesday</option>
-                    <option>Wednesday</option>
-                    <option>Thursday</option>
-                    <option>Friday</option>
-                    <option>Saturday</option>
-                    <option>Sunday</option>
-                  </select>
+                <label>Date
+                  <input type="date" name="best-date" />
                 </label>
                 <div class="availability-time-row">
                   <label>From<input type="time" name="best-start" /></label>
@@ -206,17 +197,8 @@
                     </div>
                     <button class="booking-card-remove" type="button" aria-label="Remove backup time" hidden>✕</button>
                   </div>
-                  <label>Day
-                    <select name="backup-day-1">
-                      <option value="" disabled selected>Select a day</option>
-                      <option>Monday</option>
-                      <option>Tuesday</option>
-                      <option>Wednesday</option>
-                      <option>Thursday</option>
-                      <option>Friday</option>
-                      <option>Saturday</option>
-                      <option>Sunday</option>
-                    </select>
+                  <label>Date
+                    <input type="date" name="backup-date-1" />
                   </label>
                   <div class="availability-time-row">
                     <label>From<input type="time" name="backup-start-1" /></label>
@@ -529,17 +511,17 @@
             // A court must be chosen
             return !!document.querySelector('[name="court"]:checked');
           case 3: {
-            // Best time: day selected, from + to filled
-            const bestDay   = document.querySelector('[name="best-day"]').value;
+            // Best time: date selected, from + to filled
+            const bestDate  = document.querySelector('[name="best-date"]').value;
             const bestStart = document.querySelector('[name="best-start"]').value;
             const bestEnd   = document.querySelector('[name="best-end"]').value;
-            if (!bestDay || !bestStart || !bestEnd) return false;
+            if (!bestDate || !bestStart || !bestEnd) return false;
             // All visible backup cards must be filled
             const backupCards = backupList.querySelectorAll(".booking-card");
             for (const card of backupCards) {
-              const sel   = card.querySelector("select");
-              const times = card.querySelectorAll("input[type='time']");
-              if (!sel.value || !times[0]?.value || !times[1]?.value) return false;
+              const dateInput = card.querySelector("input[type='date']");
+              const times     = card.querySelectorAll("input[type='time']");
+              if (!dateInput?.value || !times[0]?.value || !times[1]?.value) return false;
             }
             return true;
           }
@@ -572,8 +554,8 @@
         cb.addEventListener("change", () => { if (activeRequestStep === 2) refreshButton(2); });
       });
 
-      // Step 3: best-day, best-start, best-end (backup cards handled via delegation)
-      ["best-day", "best-start", "best-end"].forEach((field) => {
+      // Step 3: best-date, best-start, best-end (backup cards handled via delegation)
+      ["best-date", "best-start", "best-end"].forEach((field) => {
         document.querySelector(`[name="${field}"]`).addEventListener("change", () => {
           if (activeRequestStep === 3) refreshButton(3);
         });
@@ -586,7 +568,6 @@
       });
 
       // ── Backup times: add / remove ────────────────────────────────
-      const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
       const backupList   = document.querySelector("#backup-times-list");
       const addBackupBtn = document.querySelector("#add-backup-btn");
       const MAX_BACKUPS  = 4;
@@ -596,10 +577,18 @@
         if (activeRequestStep === 3) refreshButton(3);
       });
 
-      function dayOptions() {
-        return `<option value="" disabled selected>Select a day</option>` +
-          days.map((d) => `<option>${d}</option>`).join("");
+      // Set min/max on all date inputs (today → 3 weeks out)
+      function initDateBounds() {
+        const today  = new Date().toISOString().split("T")[0];
+        const maxDay = new Date();
+        maxDay.setDate(maxDay.getDate() + 21);
+        const max = maxDay.toISOString().split("T")[0];
+        document.querySelectorAll("input[type='date']").forEach((el) => {
+          el.min = today;
+          el.max = max;
+        });
       }
+      initDateBounds();
 
       function updateRemoveButtons() {
         const cards = backupList.querySelectorAll(".booking-card");
@@ -623,7 +612,8 @@
         backupList.querySelectorAll(".booking-card").forEach((card, i) => {
           const idx = i + 1;
           card.dataset.backupIndex = idx;
-          card.querySelector("select").name = `backup-day-${idx}`;
+          const dateInput = card.querySelector("input[type='date']");
+          if (dateInput) dateInput.name = `backup-date-${idx}`;
           const [startInput, endInput] = card.querySelectorAll("input[type='time']");
           if (startInput) startInput.name = `backup-start-${idx}`;
           if (endInput)   endInput.name   = `backup-end-${idx}`;
@@ -643,12 +633,14 @@
             </div>
             <button class="booking-card-remove" type="button" aria-label="Remove backup time">✕</button>
           </div>
-          <label>Day<select name="backup-day-${count}">${dayOptions()}</select></label>
+          <label>Date<input type="date" name="backup-date-${count}" /></label>
           <div class="availability-time-row">
             <label>From<input type="time" name="backup-start-${count}" /></label>
             <label>To<input type="time" name="backup-end-${count}" /></label>
           </div>
         `;
+        // Apply same date bounds to the new card's date input
+        initDateBounds();
         backupList.appendChild(card);
         attachRemoveListener(card);
         updateRemoveButtons();
