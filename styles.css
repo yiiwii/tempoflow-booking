@@ -961,7 +961,8 @@ button {
   transition: border-color 0.12s;
 }
 
-.court-list-item input[type="radio"] {
+.court-list-item input[type="radio"],
+.court-list-item input[type="checkbox"] {
   position: absolute;
   opacity: 0;
   width: 0;
@@ -969,7 +970,7 @@ button {
   pointer-events: none;
 }
 
-/* Custom radio circle */
+/* Legacy radio indicator (kept for safety) */
 .court-list-radio {
   flex-shrink: 0;
   width: 22px;
@@ -977,11 +978,46 @@ button {
   border: 1.5px solid var(--court-700);
   border-radius: 50%;
   position: relative;
-  transition: border-color 0.12s;
+  transition: border-color 0.12s, background 0.12s;
 }
 
-.court-list-item:has(input:checked) .court-list-radio {
+.court-list-item:has(input[type="radio"]:checked) .court-list-radio {
   background: radial-gradient(circle at center, var(--court-700) 0 38%, transparent 42%);
+}
+
+/* Checkbox indicator — rounded square with checkmark */
+.court-list-check {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  border: 1.5px solid var(--court-700);
+  border-radius: 6px;
+  position: relative;
+  transition: border-color 0.12s, background 0.12s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.court-list-check::after {
+  content: "";
+  display: block;
+  width: 5px;
+  height: 9px;
+  border-right: 2px solid transparent;
+  border-bottom: 2px solid transparent;
+  transform: rotate(45deg) translateY(-1px);
+  transition: border-color 0.1s;
+}
+
+.court-list-item:has(input[type="checkbox"]:checked) .court-list-check {
+  background: var(--court-700);
+  border-color: var(--court-700);
+}
+
+.court-list-item:has(input[type="checkbox"]:checked) .court-list-check::after {
+  border-right-color: var(--lime);
+  border-bottom-color: var(--lime);
 }
 
 .court-list-item:has(input:checked) {
@@ -991,6 +1027,13 @@ button {
 .court-list-item:has(input:focus-visible) {
   outline: 2px solid var(--lime);
   outline-offset: 2px;
+}
+
+/* Chip hint variant */
+.booking-card-chip--hint {
+  background: rgba(200, 255, 87, 0.12);
+  color: var(--lime-soft);
+  border: 1px solid rgba(200, 255, 87, 0.2);
 }
 
 .court-list-info {

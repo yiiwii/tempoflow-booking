@@ -112,13 +112,16 @@
                 <span class="booking-section-counter">2/4</span>
               </div>
 
-              <!-- From this list -->
+              <!-- From this list — multi-select (more selections = higher booking chance) -->
               <div class="booking-card">
-                <strong class="booking-card-title">From this list</strong>
-                <div class="court-list" role="radiogroup" aria-label="Court preference">
+                <div class="booking-card-title-row">
+                  <strong class="booking-card-title">Pick any that work</strong>
+                  <span class="booking-card-chip booking-card-chip--hint">More = higher chance</span>
+                </div>
+                <div class="court-list" role="group" aria-label="Court preference">
                   <label class="court-list-item">
-                    <input type="radio" name="court" value="midtown" />
-                    <span class="court-list-radio"></span>
+                    <input type="checkbox" name="court" value="midtown" />
+                    <span class="court-list-check"></span>
                     <span class="court-list-info">
                       <strong>Midtown Tennis Club</strong>
                       <span>1840 Midtown Ave, Austin, TX 78701</span>
@@ -126,8 +129,8 @@
                     </span>
                   </label>
                   <label class="court-list-item">
-                    <input type="radio" name="court" value="city-court-2" />
-                    <span class="court-list-radio"></span>
+                    <input type="checkbox" name="court" value="city-court-2" />
+                    <span class="court-list-check"></span>
                     <span class="court-list-info">
                       <strong>City Court 2</strong>
                       <span>220 Parkside Dr, Austin, TX 78703</span>
@@ -135,8 +138,8 @@
                     </span>
                   </label>
                   <label class="court-list-item">
-                    <input type="radio" name="court" value="riverside" />
-                    <span class="court-list-radio"></span>
+                    <input type="checkbox" name="court" value="riverside" />
+                    <span class="court-list-check"></span>
                     <span class="court-list-info">
                       <strong>Riverside Court</strong>
                       <span>760 Riverside Dr, Austin, TX 78704</span>
@@ -576,9 +579,9 @@
         r.addEventListener("change", () => { if (activeRequestStep === 1) refreshButton(1); });
       });
 
-      // Step 2: court radio
-      document.querySelectorAll('[name="court"]').forEach((r) => {
-        r.addEventListener("change", () => { if (activeRequestStep === 2) refreshButton(2); });
+      // Step 2: court checkboxes — at least one must be checked
+      document.querySelectorAll('[name="court"]').forEach((cb) => {
+        cb.addEventListener("change", () => { if (activeRequestStep === 2) refreshButton(2); });
       });
 
       // Step 3: best-day, best-start, best-end (backup cards handled via delegation)
