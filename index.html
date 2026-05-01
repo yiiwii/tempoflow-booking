@@ -3,7 +3,25 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, interactive-widget=resizes-content" />
-    <title>Request a Lesson with Coach Maya</title>
+    <title>Book Tennis Lessons with Maya Thompson</title>
+    <meta name="description" content="Junior Development Coach · Los Angeles. Request your tennis lesson — Coach Maya reviews and confirms your slot." />
+
+    <!-- Open Graph (WhatsApp, iMessage, Telegram, Slack…) -->
+    <meta property="og:type"        content="website" />
+    <meta property="og:url"         content="https://yiiwii.github.io/tempoflow-booking/" />
+    <meta property="og:title"       content="Maya Thompson · Tennis Coach" />
+    <meta property="og:description" content="Junior Development Coach · Los Angeles. Request your lesson in minutes — no back-and-forth texting." />
+    <meta property="og:image"       content="https://www.figma.com/api/mcp/asset/8e89cd9d-ccd6-4b3a-abf9-0657373c22b0" />
+    <meta property="og:image:width"  content="800" />
+    <meta property="og:image:height" content="800" />
+    <meta property="og:site_name"   content="TempoFlow" />
+
+    <!-- Twitter / X card -->
+    <meta name="twitter:card"        content="summary" />
+    <meta name="twitter:title"       content="Maya Thompson · Tennis Coach" />
+    <meta name="twitter:description" content="Junior Development Coach · Los Angeles. Request your lesson in minutes." />
+    <meta name="twitter:image"       content="https://www.figma.com/api/mcp/asset/8e89cd9d-ccd6-4b3a-abf9-0657373c22b0" />
+
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
@@ -429,15 +447,6 @@
         ══════════════════════════════════════════ -->
         <section class="booking-reschedule-notice" id="booking-reschedule-notice" hidden aria-label="Reschedule a session">
 
-          <header class="booking-nav">
-            <button class="booking-nav-back" id="reschedule-notice-back" type="button" aria-label="Back">‹</button>
-            <div class="booking-nav-identity">
-              <span class="booking-nav-name">Maya Thompson</span>
-              <span class="booking-nav-role">Junior Development Coach</span>
-            </div>
-            <div class="booking-nav-trailing" aria-hidden="true"></div>
-          </header>
-
           <div class="reschedule-notice-body">
             <div class="reschedule-notice-icon" aria-hidden="true">
               <svg width="28" height="28" viewBox="0 0 28 28" fill="none"><path d="M23.5 14A9.5 9.5 0 1 1 14 4.5a9.45 9.45 0 0 1 6.06 2.2" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M19 2.5 23.5 6 19 9.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -634,8 +643,7 @@
         }
       });
 
-      // Reschedule notice back buttons
-      document.getElementById("reschedule-notice-back").addEventListener("click", showLanding);
+      // Reschedule notice back button
       document.getElementById("reschedule-notice-back2").addEventListener("click", showLanding);
 
       // ── Request type tracking ────────────────────────────────────
