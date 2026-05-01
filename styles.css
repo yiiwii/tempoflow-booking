@@ -883,10 +883,10 @@ button {
 }
 
 .open-times-card-content strong {
-  font-size: 15px;
+  font-size: 18px;
   font-weight: 700;
   color: var(--ink);
-  line-height: 1.3;
+  line-height: 1.1;
 }
 
 .open-times-card-content span {
