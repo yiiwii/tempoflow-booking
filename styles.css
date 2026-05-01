@@ -851,6 +851,13 @@ button {
   display: none !important;
 }
 
+/* Collapse injected-content containers when empty so they don't
+   create a ghost grid row and double the gap above the next sibling */
+#suggest-place-list:empty,
+#backup-times-list:empty {
+  display: none;
+}
+
 .add-backup-btn {
   display: flex;
   align-items: center;
