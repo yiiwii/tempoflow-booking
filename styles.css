@@ -673,12 +673,13 @@ button {
   box-sizing: border-box;
 }
 
-/* Input placeholder text colour */
+/* Input placeholder text colour + weight */
 .booking-card input::placeholder,
 .booking-card textarea::placeholder,
 .request-section input::placeholder,
 .request-section textarea::placeholder {
   color: var(--placeholder);
+  font-weight: 500;
   opacity: 1; /* Firefox reduces opacity by default */
 }
 
@@ -3038,7 +3039,9 @@ button {
 }
 
 .lesson-modal-field textarea::placeholder {
-  color: #94a39a;
+  color: var(--placeholder);
+  font-weight: 500;
+  opacity: 1;
 }
 
 .lesson-modal-field textarea:focus {
