@@ -858,6 +858,100 @@ button {
   display: none;
 }
 
+/* ── Step 3 mode wrappers ── */
+.step3-mode {
+  display: grid;
+  gap: 4px;
+}
+
+.step3-mode[hidden] {
+  display: none;
+}
+
+/* ── Day-of-week chip row (package mode) ── */
+.day-chip-group {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+
+.day-chip {
+  flex: 1;
+  min-width: 36px;
+  position: relative;
+}
+
+.day-chip input[type="checkbox"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.day-chip span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 4px;
+  border: 1.5px solid rgba(5, 59, 53, 0.15);
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  user-select: none;
+}
+
+.day-chip:has(input:checked) span {
+  background: var(--court-700);
+  border-color: var(--court-700);
+  color: var(--lime);
+}
+
+/* ── Sessions-per-week frequency chips (package mode) ── */
+.freq-chip-group {
+  display: flex;
+  gap: 8px;
+  margin-top: 2px;
+}
+
+.freq-chip {
+  flex: 1;
+  position: relative;
+}
+
+.freq-chip input[type="radio"] {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+  pointer-events: none;
+}
+
+.freq-chip span {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 8px;
+  border: 1.5px solid rgba(5, 59, 53, 0.15);
+  border-radius: 12px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--muted);
+  cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+  user-select: none;
+}
+
+.freq-chip:has(input:checked) span {
+  background: var(--court-700);
+  border-color: var(--court-700);
+  color: var(--lime);
+}
+
 /* ── Open to other times — toggle card ── */
 .open-times-card {
   display: flex;

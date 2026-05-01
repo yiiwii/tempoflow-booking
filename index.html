@@ -74,20 +74,49 @@
 
           <form class="request-form" aria-label="Lesson request form">
 
-            <!-- ── Step 1: Getting To Know ── -->
+            <!-- ── Step 1: What brings you here? ── -->
             <section class="request-section is-active" data-request-step="1">
               <div class="booking-section-label">
-                <h2>Getting To Know</h2>
+                <h2>What brings you here?</h2>
                 <span class="booking-section-counter">1/4</span>
               </div>
 
-              <!-- Prior Experience -->
+              <!-- Request type -->
               <div class="booking-card">
-                <strong class="booking-card-title">Prior Experience</strong>
-                <div class="choice-grid" role="group" aria-label="Coaching relationship">
-                  <label><input type="radio" name="relationship" /> I've trained with Coach Maya before</label>
-                  <label><input type="radio" name="relationship" /> I'm new to Coach Maya</label>
-                  <label><input type="radio" name="relationship" /> Not sure</label>
+                <strong class="booking-card-title">I want to…</strong>
+                <div class="court-list" role="group" aria-label="Request type">
+                  <label class="court-list-item">
+                    <input type="radio" name="request-type" value="trial" />
+                    <span class="court-list-radio"></span>
+                    <span class="court-list-info">
+                      <strong>Book a trial lesson</strong>
+                      <span>First time with Coach Maya</span>
+                    </span>
+                  </label>
+                  <label class="court-list-item">
+                    <input type="radio" name="request-type" value="session" />
+                    <span class="court-list-radio"></span>
+                    <span class="court-list-info">
+                      <strong>Book a session</strong>
+                      <span>Schedule an upcoming lesson</span>
+                    </span>
+                  </label>
+                  <label class="court-list-item">
+                    <input type="radio" name="request-type" value="reschedule" />
+                    <span class="court-list-radio"></span>
+                    <span class="court-list-info">
+                      <strong>Reschedule</strong>
+                      <span>Move an existing session to another time</span>
+                    </span>
+                  </label>
+                  <label class="court-list-item">
+                    <input type="radio" name="request-type" value="package" />
+                    <span class="court-list-radio"></span>
+                    <span class="court-list-info">
+                      <strong>Start a package</strong>
+                      <span>Set up a recurring weekly schedule</span>
+                    </span>
+                  </label>
                 </div>
               </div>
 
@@ -97,7 +126,7 @@
                   <strong class="booking-card-title">Anything Coach Maya should know?</strong>
                   <span class="booking-card-optional">Optional</span>
                 </div>
-                <textarea name="relationship-note" rows="4" placeholder="Returning after a break, asking for my child, preparing for a tournament, scheduling around school..."></textarea>
+                <textarea name="relationship-note" rows="3" placeholder="Returning after a break, asking for my child, preparing for a tournament, scheduling around school..."></textarea>
               </div>
 
               <div class="request-step-actions">
@@ -162,57 +191,121 @@
               </div>
             </section>
 
-            <!-- ── Step 3: Enter Preferred Times ── -->
+            <!-- ── Step 3: Preferred Times (adapts per request type) ── -->
             <section class="request-section" data-request-step="3" hidden>
               <div class="booking-section-label">
-                <h2>Enter Preferred times</h2>
+                <h2 id="step3-heading">Enter Preferred Times</h2>
                 <span class="booking-section-counter">3/4</span>
               </div>
 
-              <!-- Lessons / best time -->
-              <div class="booking-card">
-                <div class="booking-card-title-row">
-                  <div>
-                    <strong class="booking-card-title">Best Time</strong>
-                    <span class="booking-card-subtitle">We'll try this first</span>
-                  </div>
-                  <span class="booking-card-chip">Choose Best Time</span>
-                </div>
-                <label>Date
-                  <input type="date" name="best-date" />
-                </label>
-                <div class="availability-time-row">
-                  <label>From<input type="time" name="best-start" /></label>
-                  <label>To<input type="time" name="best-end" /></label>
-                </div>
-              </div>
-
-              <!-- Backup time cards (dynamic) -->
-              <div class="backup-times-list" id="backup-times-list">
-                <div class="booking-card" data-backup-index="1">
+              <!-- ▸ MODE: trial / session — specific dates ── -->
+              <div class="step3-mode" data-mode="dates">
+                <div class="booking-card">
                   <div class="booking-card-title-row">
                     <div>
-                      <strong class="booking-card-title">Backup Time</strong>
-                      <span class="booking-card-subtitle">Used if your best time isn't available</span>
+                      <strong class="booking-card-title">Best Time</strong>
+                      <span class="booking-card-subtitle">We'll try this first</span>
                     </div>
-                    <button class="booking-card-remove" type="button" aria-label="Remove backup time" hidden>✕</button>
+                    <span class="booking-card-chip">Choose Best Time</span>
                   </div>
-                  <label>Date
-                    <input type="date" name="backup-date-1" />
-                  </label>
+                  <label>Date<input type="date" name="best-date" /></label>
                   <div class="availability-time-row">
-                    <label>From<input type="time" name="backup-start-1" /></label>
-                    <label>To<input type="time" name="backup-end-1" /></label>
+                    <label>From<input type="time" name="best-start" /></label>
+                    <label>To<input type="time" name="best-end" /></label>
+                  </div>
+                </div>
+
+                <div class="backup-times-list" id="backup-times-list">
+                  <div class="booking-card" data-backup-index="1">
+                    <div class="booking-card-title-row">
+                      <div>
+                        <strong class="booking-card-title">Backup Time</strong>
+                        <span class="booking-card-subtitle">Used if your best time isn't available</span>
+                      </div>
+                      <button class="booking-card-remove" type="button" aria-label="Remove backup time" hidden>✕</button>
+                    </div>
+                    <label>Date<input type="date" name="backup-date-1" /></label>
+                    <div class="availability-time-row">
+                      <label>From<input type="time" name="backup-start-1" /></label>
+                      <label>To<input type="time" name="backup-end-1" /></label>
+                    </div>
+                  </div>
+                </div>
+
+                <button class="add-backup-btn" type="button" id="add-backup-btn">
+                  <span aria-hidden="true">+</span> Add another backup time
+                </button>
+              </div>
+
+              <!-- ▸ MODE: reschedule ── -->
+              <div class="step3-mode" data-mode="reschedule" hidden>
+                <div class="booking-card">
+                  <strong class="booking-card-title">Session to move</strong>
+                  <span class="booking-card-subtitle">Which lesson do you need to change?</span>
+                  <label>Date<input type="date" name="reschedule-from-date" /></label>
+                </div>
+
+                <div class="booking-card">
+                  <strong class="booking-card-title">New preferred time</strong>
+                  <label>Date<input type="date" name="reschedule-to-date" /></label>
+                  <div class="availability-time-row">
+                    <label>From<input type="time" name="reschedule-start" /></label>
+                    <label>To<input type="time" name="reschedule-end" /></label>
+                  </div>
+                </div>
+
+                <div class="booking-card">
+                  <div class="booking-card-title-row">
+                    <strong class="booking-card-title">Backup date</strong>
+                    <span class="booking-card-optional">Optional</span>
+                  </div>
+                  <label>Date<input type="date" name="reschedule-backup-date" /></label>
+                  <div class="availability-time-row">
+                    <label>From<input type="time" name="reschedule-backup-start" /></label>
+                    <label>To<input type="time" name="reschedule-backup-end" /></label>
                   </div>
                 </div>
               </div>
 
-              <!-- Add backup button -->
-              <button class="add-backup-btn" type="button" id="add-backup-btn">
-                <span aria-hidden="true">+</span> Add another backup time
-              </button>
+              <!-- ▸ MODE: package — recurring schedule ── -->
+              <div class="step3-mode" data-mode="package" hidden>
+                <div class="booking-card">
+                  <strong class="booking-card-title">Which days work for you?</strong>
+                  <div class="day-chip-group" role="group" aria-label="Preferred days">
+                    <label class="day-chip"><input type="checkbox" name="pkg-day" value="mon" /><span>Mon</span></label>
+                    <label class="day-chip"><input type="checkbox" name="pkg-day" value="tue" /><span>Tue</span></label>
+                    <label class="day-chip"><input type="checkbox" name="pkg-day" value="wed" /><span>Wed</span></label>
+                    <label class="day-chip"><input type="checkbox" name="pkg-day" value="thu" /><span>Thu</span></label>
+                    <label class="day-chip"><input type="checkbox" name="pkg-day" value="fri" /><span>Fri</span></label>
+                    <label class="day-chip"><input type="checkbox" name="pkg-day" value="sat" /><span>Sat</span></label>
+                    <label class="day-chip"><input type="checkbox" name="pkg-day" value="sun" /><span>Sun</span></label>
+                  </div>
+                </div>
 
-              <!-- Open to coach suggestions -->
+                <div class="booking-card">
+                  <strong class="booking-card-title">How often per week?</strong>
+                  <div class="freq-chip-group" role="group" aria-label="Sessions per week">
+                    <label class="freq-chip"><input type="radio" name="pkg-freq" value="1" /><span>1× week</span></label>
+                    <label class="freq-chip"><input type="radio" name="pkg-freq" value="2" /><span>2× week</span></label>
+                    <label class="freq-chip"><input type="radio" name="pkg-freq" value="3" /><span>3× week</span></label>
+                  </div>
+                </div>
+
+                <div class="booking-card">
+                  <strong class="booking-card-title">Preferred time</strong>
+                  <div class="availability-time-row">
+                    <label>From<input type="time" name="pkg-start" /></label>
+                    <label>To<input type="time" name="pkg-end" /></label>
+                  </div>
+                </div>
+
+                <div class="booking-card">
+                  <strong class="booking-card-title">When to start?</strong>
+                  <label>Date<input type="date" name="pkg-start-date" /></label>
+                </div>
+              </div>
+
+              <!-- Shared: open to other times (all modes) -->
               <label class="open-times-card">
                 <div class="open-times-card-content">
                   <strong>Open to other times</strong>
@@ -422,6 +515,9 @@
         isAnimating = true;
         activeRequestStep = newStep; // update early for event listeners
 
+        // Activate the correct Step 3 mode before the slide renders
+        if (newStep === 3) activateStep3Mode();
+
         const form = document.querySelector(".request-form");
 
         // ① Measure outgoing height while it's still in normal flow
@@ -501,29 +597,67 @@
         }
       });
 
+      // ── Request type tracking ────────────────────────────────────
+      let requestType = "";
+
+      const STEP3_HEADINGS = {
+        trial:      "Your Preferred Times",
+        session:    "Your Preferred Times",
+        reschedule: "Session to Move",
+        package:    "Your Weekly Schedule",
+      };
+
+      function activateStep3Mode() {
+        const mode = (requestType === "trial" || requestType === "session") ? "dates"
+                   : requestType === "reschedule" ? "reschedule"
+                   : "package";
+        document.querySelectorAll(".step3-mode").forEach((m) => {
+          m.hidden = m.dataset.mode !== mode;
+        });
+        const h = document.getElementById("step3-heading");
+        if (h) h.textContent = STEP3_HEADINGS[requestType] || "Enter Preferred Times";
+        refreshButton(3);
+      }
+
       // ── Validation ───────────────────────────────────────────────
       function validateStep(n) {
         switch (n) {
           case 1:
-            // Radio selection only — textarea is optional
-            return !!document.querySelector('[name="relationship"]:checked');
+            return !!document.querySelector('[name="request-type"]:checked');
           case 2:
-            // A court must be chosen
             return !!document.querySelector('[name="court"]:checked');
           case 3: {
-            // Best time: date selected, from + to filled
-            const bestDate  = document.querySelector('[name="best-date"]').value;
-            const bestStart = document.querySelector('[name="best-start"]').value;
-            const bestEnd   = document.querySelector('[name="best-end"]').value;
-            if (!bestDate || !bestStart || !bestEnd) return false;
-            // All visible backup cards must be filled
-            const backupCards = backupList.querySelectorAll(".booking-card");
-            for (const card of backupCards) {
-              const dateInput = card.querySelector("input[type='date']");
-              const times     = card.querySelectorAll("input[type='time']");
-              if (!dateInput?.value || !times[0]?.value || !times[1]?.value) return false;
+            const activeMode = document.querySelector(".step3-mode:not([hidden])");
+            if (!activeMode) return false;
+            switch (activeMode.dataset.mode) {
+              case "dates": {
+                const bestDate  = document.querySelector('[name="best-date"]').value;
+                const bestStart = document.querySelector('[name="best-start"]').value;
+                const bestEnd   = document.querySelector('[name="best-end"]').value;
+                if (!bestDate || !bestStart || !bestEnd) return false;
+                for (const card of backupList.querySelectorAll(".booking-card")) {
+                  const d = card.querySelector("input[type='date']");
+                  const t = card.querySelectorAll("input[type='time']");
+                  if (!d?.value || !t[0]?.value || !t[1]?.value) return false;
+                }
+                return true;
+              }
+              case "reschedule": {
+                const from  = document.querySelector('[name="reschedule-from-date"]').value;
+                const to    = document.querySelector('[name="reschedule-to-date"]').value;
+                const start = document.querySelector('[name="reschedule-start"]').value;
+                const end   = document.querySelector('[name="reschedule-end"]').value;
+                return !!(from && to && start && end);
+              }
+              case "package": {
+                const dayOk  = !!document.querySelector('[name="pkg-day"]:checked');
+                const freqOk = !!document.querySelector('[name="pkg-freq"]:checked');
+                const start  = document.querySelector('[name="pkg-start"]').value;
+                const end    = document.querySelector('[name="pkg-end"]').value;
+                return dayOk && freqOk && !!(start && end);
+              }
+              default: return false;
             }
-            return true;
           }
           case 4: {
             const name  = document.querySelector('[name="name"]').value.trim();
@@ -544,9 +678,12 @@
         btn.disabled = !validateStep(n);
       }
 
-      // Step 1: radio only (textarea is optional)
-      document.querySelectorAll('[name="relationship"]').forEach((r) => {
-        r.addEventListener("change", () => { if (activeRequestStep === 1) refreshButton(1); });
+      // Step 1: request type radio
+      document.querySelectorAll('[name="request-type"]').forEach((r) => {
+        r.addEventListener("change", () => {
+          requestType = r.value;
+          if (activeRequestStep === 1) refreshButton(1);
+        });
       });
 
       // Step 2: court checkboxes — at least one must be checked
@@ -554,12 +691,30 @@
         cb.addEventListener("change", () => { if (activeRequestStep === 2) refreshButton(2); });
       });
 
-      // Step 3: best-date, best-start, best-end (backup cards handled via delegation)
+      // Step 3 — dates mode
       ["best-date", "best-start", "best-end"].forEach((field) => {
-        document.querySelector(`[name="${field}"]`).addEventListener("change", () => {
+        document.querySelector(`[name="${field}"]`)?.addEventListener("change", () => {
           if (activeRequestStep === 3) refreshButton(3);
         });
       });
+
+      // Step 3 — reschedule mode
+      ["reschedule-from-date","reschedule-to-date","reschedule-start","reschedule-end"].forEach((field) => {
+        document.querySelector(`[name="${field}"]`)?.addEventListener("change", () => {
+          if (activeRequestStep === 3) refreshButton(3);
+        });
+      });
+
+      // Step 3 — package mode
+      document.querySelectorAll('[name="pkg-day"],[name="pkg-freq"]').forEach((el) => {
+        el.addEventListener("change", () => { if (activeRequestStep === 3) refreshButton(3); });
+      });
+      ["pkg-start","pkg-end"].forEach((field) => {
+        document.querySelector(`[name="${field}"]`)?.addEventListener("change", () => {
+          if (activeRequestStep === 3) refreshButton(3);
+        });
+      });
+
       // Step 4: contact fields
       ["name", "phone", "email"].forEach((field) => {
         document.querySelector(`[name="${field}"]`).addEventListener("input", () => {
@@ -577,15 +732,17 @@
         if (activeRequestStep === 3) refreshButton(3);
       });
 
-      // Set min/max on all date inputs (today → 3 weeks out)
+      // Set min/max on date inputs — 3-week window for specific sessions,
+      // 8-week window for package start date
       function initDateBounds() {
-        const today  = new Date().toISOString().split("T")[0];
-        const maxDay = new Date();
-        maxDay.setDate(maxDay.getDate() + 21);
-        const max = maxDay.toISOString().split("T")[0];
+        const today = new Date().toISOString().split("T")[0];
+        const max3w = new Date(); max3w.setDate(max3w.getDate() + 21);
+        const max8w = new Date(); max8w.setDate(max8w.getDate() + 56);
+        const max3wStr = max3w.toISOString().split("T")[0];
+        const max8wStr = max8w.toISOString().split("T")[0];
         document.querySelectorAll("input[type='date']").forEach((el) => {
           el.min = today;
-          el.max = max;
+          el.max = el.name === "pkg-start-date" ? max8wStr : max3wStr;
         });
       }
       initDateBounds();
