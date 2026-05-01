@@ -621,12 +621,14 @@ button {
 .booking-card input[type="tel"],
 .booking-card input[type="email"],
 .booking-card input[type="time"],
+.booking-card input[type="date"],
 .booking-card select,
 .booking-card textarea,
 .request-section input[type="text"],
 .request-section input[type="tel"],
 .request-section input[type="email"],
 .request-section input[type="time"],
+.request-section input[type="date"],
 .request-section select,
 .request-section textarea {
   width: 100%;
@@ -640,6 +642,16 @@ button {
   outline: none;
   appearance: none;
   -webkit-appearance: none;
+  min-height: 52px; /* lock height so empty ↔ filled never shifts layout */
+  box-sizing: border-box;
+}
+
+/* Date/time inputs: show muted placeholder colour when no value is set */
+.booking-card input[type="date"]:not([value]):not(:focus),
+.booking-card input[type="time"]:not([value]):not(:focus),
+.request-section input[type="date"]:not([value]):not(:focus),
+.request-section input[type="time"]:not([value]):not(:focus) {
+  color: var(--muted);
 }
 
 .booking-card textarea,
@@ -656,6 +668,7 @@ button {
   border-color: var(--court-500);
   outline: 2px solid rgba(200, 255, 87, 0.7);
   outline-offset: 1px;
+  color: var(--ink); /* restore ink colour on focus for empty date/time */
 }
 
 /* Radio/checkbox: no lime ring, just the native accent colour */
