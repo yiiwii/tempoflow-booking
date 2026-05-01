@@ -631,7 +631,7 @@ button {
   padding: 13px 14px;
   color: var(--ink);
   background: var(--surface);
-  font-size: 15px;
+  font-size: 16px; /* 16px minimum prevents iOS auto-zoom on focus */
   font-weight: 500;
   outline: none;
   appearance: none;
