@@ -390,6 +390,7 @@
         formShellEl.hidden = false;
         successEl.hidden   = true;
         showRequestStep(step || 1);
+        refreshButton(step || 1);
       }
 
       function showSuccess() {
@@ -414,10 +415,14 @@
           section.hidden = !isActive;
           section.classList.toggle("is-active", isActive);
         });
+        window.scrollTo({ top: 0, behavior: "instant" });
+        refreshButton(activeRequestStep);
       }
 
       document.querySelectorAll("[data-next-step]").forEach((btn) => {
-        btn.addEventListener("click", () => showRequestStep(activeRequestStep + 1));
+        btn.addEventListener("click", () => {
+          if (!btn.disabled) showRequestStep(activeRequestStep + 1);
+        });
       });
 
       // Nav bar back: step 1 → landing, step 2+ → previous step
@@ -427,6 +432,47 @@
         } else {
           showRequestStep(activeRequestStep - 1);
         }
+      });
+
+      // ── Validation ───────────────────────────────────────────────
+      function validateStep(n) {
+        switch (n) {
+          case 1:
+            // relationship-note textarea must have content
+            return document.querySelector('[name="relationship-note"]').value.trim().length > 0;
+          case 2:
+            return true; // court radio is always pre-checked
+          case 3:
+            return true; // all time fields have defaults; avoid is Optional
+          case 4: {
+            const name  = document.querySelector('[name="name"]').value.trim();
+            const phone = document.querySelector('[name="phone"]').value.trim();
+            const email = document.querySelector('[name="email"]').value.trim();
+            return name.length > 0 && phone.length > 0 && email.includes("@");
+          }
+          default:
+            return true;
+        }
+      }
+
+      function refreshButton(n) {
+        const section = document.querySelector(`[data-request-step="${n}"]`);
+        if (!section) return;
+        const btn = section.querySelector("[data-next-step], #submit-btn");
+        if (!btn) return;
+        btn.disabled = !validateStep(n);
+      }
+
+      // Watch step-1 textarea
+      document.querySelector('[name="relationship-note"]').addEventListener("input", () => {
+        if (activeRequestStep === 1) refreshButton(1);
+      });
+
+      // Watch step-4 contact fields
+      ["name", "phone", "email"].forEach((field) => {
+        document.querySelector(`[name="${field}"]`).addEventListener("input", () => {
+          if (activeRequestStep === 4) refreshButton(4);
+        });
       });
 
       // ── Backup times: add / remove ────────────────────────────────

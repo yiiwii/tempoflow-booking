@@ -1117,6 +1117,12 @@ button {
   opacity: 0.9;
 }
 
+.request-submit:disabled,
+.request-next:disabled {
+  opacity: 0.32;
+  cursor: not-allowed;
+}
+
 @media (max-width: 380px) {
   .choice-grid.two-col,
   .time-window-grid {
