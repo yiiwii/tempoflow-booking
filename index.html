@@ -946,9 +946,21 @@
               <span>${address}</span>
               <em><a href="${mapsUrl}" target="_blank" rel="noopener">View on Google Maps ↗</a></em>
             </span>
+            <button class="court-list-remove" type="button" aria-label="Remove suggestion">
+              <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true">
+                <path d="M2 2l10 10M12 2L2 12" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+              </svg>
+            </button>
           `;
 
           courtList.appendChild(item);
+
+          // Delete button — prevent label toggle, remove the item
+          item.querySelector(".court-list-remove").addEventListener("click", (e) => {
+            e.preventDefault();
+            item.remove();
+            if (activeRequestStep === 2) refreshButton(2);
+          });
 
           // Wire new checkbox into step-2 validation
           item.querySelector("input[type='checkbox']").addEventListener("change", () => {

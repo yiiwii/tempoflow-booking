@@ -1166,6 +1166,26 @@ button {
   gap: 4px;
 }
 
+.court-list-remove {
+  flex: none;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  margin-left: auto;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--placeholder);
+  cursor: pointer;
+  transition: background 0.12s, color 0.12s;
+}
+
+.court-list-remove:hover {
+  background: rgba(5, 59, 53, 0.07);
+  color: var(--ink);
+}
+
 .option-chip-group {
   display: grid;
   gap: 8px;
