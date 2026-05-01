@@ -85,15 +85,18 @@
               <div class="booking-card">
                 <strong class="booking-card-title">Prior Experience</strong>
                 <div class="choice-grid" role="group" aria-label="Coaching relationship">
-                  <label><input type="radio" name="relationship" checked /> I've trained with Coach Maya before</label>
+                  <label><input type="radio" name="relationship" /> I've trained with Coach Maya before</label>
                   <label><input type="radio" name="relationship" /> I'm new to Coach Maya</label>
                   <label><input type="radio" name="relationship" /> Not sure</label>
                 </div>
               </div>
 
-              <!-- Anything to know -->
+              <!-- Anything to know (optional) -->
               <div class="booking-card">
-                <strong class="booking-card-title">Anything Coach Maya should know?</strong>
+                <div class="booking-card-title-row">
+                  <strong class="booking-card-title">Anything Coach Maya should know?</strong>
+                  <span class="booking-card-optional">Optional</span>
+                </div>
                 <textarea name="relationship-note" rows="4" placeholder="Returning after a break, asking for my child, preparing for a tournament, scheduling around school..."></textarea>
               </div>
 
@@ -114,7 +117,7 @@
                 <strong class="booking-card-title">From this list</strong>
                 <div class="court-list" role="radiogroup" aria-label="Court preference">
                   <label class="court-list-item">
-                    <input type="radio" name="court" value="midtown" checked />
+                    <input type="radio" name="court" value="midtown" />
                     <span class="court-list-radio"></span>
                     <span class="court-list-info">
                       <strong>Midtown Tennis Club</strong>
@@ -174,8 +177,9 @@
                 </div>
                 <label>Day
                   <select name="best-day">
-                    <option>Tuesday</option>
+                    <option value="" disabled selected>Select a day</option>
                     <option>Monday</option>
+                    <option>Tuesday</option>
                     <option>Wednesday</option>
                     <option>Thursday</option>
                     <option>Friday</option>
@@ -184,8 +188,8 @@
                   </select>
                 </label>
                 <div class="availability-time-row">
-                  <label>From<input type="time" name="best-start" value="16:00" /></label>
-                  <label>To<input type="time" name="best-end" value="20:00" /></label>
+                  <label>From<input type="time" name="best-start" /></label>
+                  <label>To<input type="time" name="best-end" /></label>
                 </div>
               </div>
 
@@ -201,18 +205,19 @@
                   </div>
                   <label>Day
                     <select name="backup-day-1">
-                      <option>Thursday</option>
+                      <option value="" disabled selected>Select a day</option>
                       <option>Monday</option>
                       <option>Tuesday</option>
                       <option>Wednesday</option>
+                      <option>Thursday</option>
                       <option>Friday</option>
                       <option>Saturday</option>
                       <option>Sunday</option>
                     </select>
                   </label>
                   <div class="availability-time-row">
-                    <label>From<input type="time" name="backup-start-1" value="17:00" /></label>
-                    <label>To<input type="time" name="backup-end-1" value="19:00" /></label>
+                    <label>From<input type="time" name="backup-start-1" /></label>
+                    <label>To<input type="time" name="backup-end-1" /></label>
                   </div>
                 </div>
               </div>
@@ -383,14 +388,26 @@
         landingEl.hidden   = false;
         formShellEl.hidden = true;
         successEl.hidden   = true;
+        window.scrollTo(0, 0);
       }
 
       function showForm(step) {
+        // Reset all steps silently (no animation) before revealing the form
+        const targetStep = step || 1;
+        isAnimating = false;
+        document.querySelector(".request-form").style.cssText = "";
+        requestSteps.forEach((s) => {
+          const isTarget = Number(s.dataset.requestStep) === targetStep;
+          s.hidden = !isTarget;
+          s.style.cssText = "";
+          s.classList.toggle("is-active", isTarget);
+        });
+        activeRequestStep = targetStep;
+
         landingEl.hidden   = true;
         formShellEl.hidden = false;
         successEl.hidden   = true;
-        showRequestStep(step || 1);
-        refreshButton(step || 1);
+        refreshButton(targetStep);
       }
 
       function showSuccess() {
@@ -404,33 +421,101 @@
       document.getElementById("success-home-btn").addEventListener("click", () => showLanding());
       document.getElementById("submit-btn").addEventListener("click", () => showSuccess());
 
-      // ── Multi-step navigation ─────────────────────────────────────
+      // ── Multi-step navigation with slide transitions ──────────────
       const requestSteps = Array.from(document.querySelectorAll("[data-request-step]"));
       let activeRequestStep = 1;
+      let isAnimating = false;
+      const SLIDE_DUR  = 320;
+      const SLIDE_EASE = "cubic-bezier(0.4, 0, 0.2, 1)";
 
-      function showRequestStep(step) {
-        activeRequestStep = Math.max(1, Math.min(requestSteps.length, step));
-        requestSteps.forEach((section) => {
-          const isActive = Number(section.dataset.requestStep) === activeRequestStep;
-          section.hidden = !isActive;
-          section.classList.toggle("is-active", isActive);
-        });
-        window.scrollTo({ top: 0, behavior: "instant" });
-        refreshButton(activeRequestStep);
+      function showRequestStep(step, dir) {
+        const newStep   = Math.max(1, Math.min(requestSteps.length, step));
+        const direction = dir !== undefined ? dir : (newStep > activeRequestStep ? "forward" : "back");
+
+        const outEl = requestSteps.find((s) => Number(s.dataset.requestStep) === activeRequestStep);
+        const inEl  = requestSteps.find((s) => Number(s.dataset.requestStep) === newStep);
+
+        if (!inEl || isAnimating) return;
+
+        // Same step: just make sure it's visible
+        if (outEl === inEl) {
+          inEl.hidden = false;
+          inEl.classList.add("is-active");
+          window.scrollTo({ top: 0, behavior: "instant" });
+          refreshButton(newStep);
+          return;
+        }
+
+        isAnimating = true;
+        activeRequestStep = newStep; // update early for event listeners
+
+        const form = document.querySelector(".request-form");
+
+        // Lock form to outgoing height and clip overflow
+        form.style.height   = outEl.offsetHeight + "px";
+        form.style.overflow = "hidden";
+
+        // Lift outgoing out of normal flow so it doesn't push layout
+        outEl.style.position    = "absolute";
+        outEl.style.top         = "0";
+        outEl.style.left        = "0";
+        outEl.style.width       = "100%";
+        outEl.style.zIndex      = "1";
+        outEl.style.pointerEvents = "none";
+
+        // Reveal incoming off-screen (still in flow for height calculation)
+        inEl.hidden           = false;
+        inEl.style.zIndex     = "2";
+        inEl.style.willChange = "transform";
+        inEl.style.transform  = direction === "forward" ? "translateX(100%)" : "translateX(-100%)";
+
+        // Force reflow so initial transform is committed before transition starts
+        inEl.offsetHeight; // eslint-disable-line no-unused-expressions
+
+        // Attach transitions
+        outEl.style.transition = `transform ${SLIDE_DUR}ms ${SLIDE_EASE}`;
+        inEl.style.transition  = `transform ${SLIDE_DUR}ms ${SLIDE_EASE}`;
+        form.style.transition  = `height ${SLIDE_DUR}ms ${SLIDE_EASE}`;
+
+        // Slide both panels
+        outEl.style.transform = direction === "forward" ? "translateX(-100%)" : "translateX(100%)";
+        inEl.style.transform  = "translateX(0)";
+
+        // Animate form height to incoming content height
+        form.style.height = inEl.scrollHeight + "px";
+
+        setTimeout(() => {
+          // Clean up outgoing
+          outEl.hidden    = true;
+          outEl.style.cssText = "";
+          outEl.classList.remove("is-active");
+
+          // Clean up incoming
+          inEl.style.cssText = "";
+          inEl.classList.add("is-active");
+
+          // Release form height lock
+          form.style.cssText = "";
+
+          isAnimating = false;
+          window.scrollTo({ top: 0, behavior: "instant" });
+          refreshButton(newStep);
+        }, SLIDE_DUR + 20);
       }
 
       document.querySelectorAll("[data-next-step]").forEach((btn) => {
         btn.addEventListener("click", () => {
-          if (!btn.disabled) showRequestStep(activeRequestStep + 1);
+          if (!btn.disabled && !isAnimating) showRequestStep(activeRequestStep + 1, "forward");
         });
       });
 
       // Nav bar back: step 1 → landing, step 2+ → previous step
       document.getElementById("booking-nav-back").addEventListener("click", () => {
+        if (isAnimating) return;
         if (activeRequestStep === 1) {
           showLanding();
         } else {
-          showRequestStep(activeRequestStep - 1);
+          showRequestStep(activeRequestStep - 1, "back");
         }
       });
 
@@ -438,12 +523,26 @@
       function validateStep(n) {
         switch (n) {
           case 1:
-            // relationship-note textarea must have content
-            return document.querySelector('[name="relationship-note"]').value.trim().length > 0;
+            // Radio selection only — textarea is optional
+            return !!document.querySelector('[name="relationship"]:checked');
           case 2:
-            return true; // court radio is always pre-checked
-          case 3:
-            return true; // all time fields have defaults; avoid is Optional
+            // A court must be chosen
+            return !!document.querySelector('[name="court"]:checked');
+          case 3: {
+            // Best time: day selected, from + to filled
+            const bestDay   = document.querySelector('[name="best-day"]').value;
+            const bestStart = document.querySelector('[name="best-start"]').value;
+            const bestEnd   = document.querySelector('[name="best-end"]').value;
+            if (!bestDay || !bestStart || !bestEnd) return false;
+            // All visible backup cards must be filled
+            const backupCards = backupList.querySelectorAll(".booking-card");
+            for (const card of backupCards) {
+              const sel   = card.querySelector("select");
+              const times = card.querySelectorAll("input[type='time']");
+              if (!sel.value || !times[0]?.value || !times[1]?.value) return false;
+            }
+            return true;
+          }
           case 4: {
             const name  = document.querySelector('[name="name"]').value.trim();
             const phone = document.querySelector('[name="phone"]').value.trim();
@@ -463,12 +562,28 @@
         btn.disabled = !validateStep(n);
       }
 
-      // Watch step-1 textarea
-      document.querySelector('[name="relationship-note"]').addEventListener("input", () => {
-        if (activeRequestStep === 1) refreshButton(1);
+      // Step 1: radio only (textarea is optional)
+      document.querySelectorAll('[name="relationship"]').forEach((r) => {
+        r.addEventListener("change", () => { if (activeRequestStep === 1) refreshButton(1); });
       });
 
-      // Watch step-4 contact fields
+      // Step 2: court radio
+      document.querySelectorAll('[name="court"]').forEach((r) => {
+        r.addEventListener("change", () => { if (activeRequestStep === 2) refreshButton(2); });
+      });
+
+      // Step 3: best-day, best-start, best-end (backup cards handled via delegation)
+      ["best-day", "best-start", "best-end"].forEach((field) => {
+        document.querySelector(`[name="${field}"]`).addEventListener("change", () => {
+          if (activeRequestStep === 3) refreshButton(3);
+        });
+      });
+      // Delegate backup card changes to the list container
+      backupList.addEventListener("change", () => {
+        if (activeRequestStep === 3) refreshButton(3);
+      });
+
+      // Step 4: contact fields
       ["name", "phone", "email"].forEach((field) => {
         document.querySelector(`[name="${field}"]`).addEventListener("input", () => {
           if (activeRequestStep === 4) refreshButton(4);
@@ -481,8 +596,9 @@
       const addBackupBtn = document.querySelector("#add-backup-btn");
       const MAX_BACKUPS = 4;
 
-      function dayOptions(selectedDay) {
-        return days.map((d) => `<option ${d === selectedDay ? "selected" : ""}>${d}</option>`).join("");
+      function dayOptions() {
+        return `<option value="" disabled selected>Select a day</option>` +
+          days.map((d) => `<option>${d}</option>`).join("");
       }
 
       function updateRemoveButtons() {
@@ -499,6 +615,7 @@
           card.remove();
           reindexBackups();
           updateRemoveButtons();
+          if (activeRequestStep === 3) refreshButton(3);
         });
       }
 
@@ -526,15 +643,16 @@
             </div>
             <button class="booking-card-remove" type="button" aria-label="Remove backup time">✕</button>
           </div>
-          <label>Day<select name="backup-day-${count}">${dayOptions("Saturday")}</select></label>
+          <label>Day<select name="backup-day-${count}">${dayOptions()}</select></label>
           <div class="availability-time-row">
-            <label>From<input type="time" name="backup-start-${count}" value="09:00" /></label>
-            <label>To<input type="time" name="backup-end-${count}" value="13:00" /></label>
+            <label>From<input type="time" name="backup-start-${count}" /></label>
+            <label>To<input type="time" name="backup-end-${count}" /></label>
           </div>
         `;
         backupList.appendChild(card);
         attachRemoveListener(card);
         updateRemoveButtons();
+        if (activeRequestStep === 3) refreshButton(3);
       });
 
       attachRemoveListener(backupList.querySelector(".booking-card"));

@@ -395,6 +395,7 @@ button {
 .request-form {
   display: grid;
   gap: 4px;
+  position: relative; /* slide-transition clip anchor */
 }
 
 .request-step-top {
