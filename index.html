@@ -1,0 +1,513 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Request a Lesson with Coach Maya</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Geist:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body class="booking-page">
+    <main class="booking-shell">
+      <section class="booking-template">
+
+        <!-- ══════════════════════════════════════════
+             LANDING PAGE
+        ══════════════════════════════════════════ -->
+        <section class="booking-landing" id="booking-landing" aria-label="Coach profile">
+
+          <!-- Hero: full-bleed coach photo + identity -->
+          <div class="booking-landing-hero">
+            <img
+              class="booking-landing-photo"
+              src="https://www.figma.com/api/mcp/asset/8e89cd9d-ccd6-4b3a-abf9-0657373c22b0"
+              alt=""
+              aria-hidden="true"
+            />
+            <div class="booking-landing-gradient" aria-hidden="true"></div>
+
+<div class="booking-landing-identity">
+              <p class="booking-landing-eyebrow">TENNIS LESSONS WITH</p>
+              <div class="booking-landing-name-row">
+                <h1 id="booking-title">Maya Thompson</h1>
+                <img
+                  class="booking-landing-badge"
+                  src="https://www.figma.com/api/mcp/asset/663f8a33-efaa-4249-a184-582278fcb4a6"
+                  alt="Verified coach"
+                  width="21"
+                  height="22"
+                />
+              </div>
+              <p class="booking-landing-role">Junior Development Coach</p>
+              <p class="booking-landing-location">Los Angeles</p>
+            </div>
+          </div>
+
+          <!-- CTAs -->
+          <div class="booking-landing-actions">
+            <button class="booking-cta-primary" id="booking-start-btn" type="button">
+              Book Lessons
+            </button>
+            <button class="booking-cta-ghost" type="button">
+              View Packages
+            </button>
+          </div>
+
+        </section>
+
+        <!-- ══════════════════════════════════════════
+             FORM SHELL  (hidden until CTA tapped)
+        ══════════════════════════════════════════ -->
+        <div class="booking-form-shell" id="booking-form-shell" hidden>
+
+          <!-- Compact iOS-style nav bar -->
+          <header class="booking-nav">
+            <button class="booking-nav-back" id="booking-nav-back" type="button" aria-label="Back">‹</button>
+            <div class="booking-nav-identity">
+              <span class="booking-nav-name">Maya Thompson</span>
+              <span class="booking-nav-role">Junior Development Coach</span>
+            </div>
+            <div class="booking-nav-trailing" aria-hidden="true"></div>
+          </header>
+
+          <form class="request-form" aria-label="Lesson request form">
+
+            <!-- ── Step 1: Getting To Know ── -->
+            <section class="request-section is-active" data-request-step="1">
+              <div class="booking-section-label">
+                <h2>Getting To Know</h2>
+                <span class="booking-section-counter">1/4</span>
+              </div>
+
+              <!-- Prior Experience -->
+              <div class="booking-card">
+                <strong class="booking-card-title">Prior Experience</strong>
+                <div class="choice-grid" role="group" aria-label="Coaching relationship">
+                  <label><input type="radio" name="relationship" checked /> I've trained with Coach Maya before</label>
+                  <label><input type="radio" name="relationship" /> I'm new to Coach Maya</label>
+                  <label><input type="radio" name="relationship" /> Not sure</label>
+                </div>
+              </div>
+
+              <!-- Anything to know -->
+              <div class="booking-card">
+                <strong class="booking-card-title">Anything Coach Maya should know?</strong>
+                <textarea name="relationship-note" rows="4" placeholder="Returning after a break, asking for my child, preparing for a tournament, scheduling around school..."></textarea>
+              </div>
+
+              <div class="request-step-actions">
+                <button class="request-next" type="button" data-next-step>Next</button>
+              </div>
+            </section>
+
+            <!-- ── Step 2: Choose Location ── -->
+            <section class="request-section" data-request-step="2" hidden>
+              <div class="booking-section-label">
+                <h2>Choose Location</h2>
+                <span class="booking-section-counter">2/4</span>
+              </div>
+
+              <!-- From this list -->
+              <div class="booking-card">
+                <strong class="booking-card-title">From this list</strong>
+                <div class="court-list" role="radiogroup" aria-label="Court preference">
+                  <label class="court-list-item">
+                    <input type="radio" name="court" value="midtown" checked />
+                    <span class="court-list-radio"></span>
+                    <span class="court-list-info">
+                      <strong>Midtown Tennis Club</strong>
+                      <span>1840 Midtown Ave, Austin, TX 78701</span>
+                      <em>1.2 miles away · <a href="https://maps.google.com/?q=Midtown+Tennis+Club+Austin" target="_blank" rel="noopener">View map</a></em>
+                    </span>
+                  </label>
+                  <label class="court-list-item">
+                    <input type="radio" name="court" value="city-court-2" />
+                    <span class="court-list-radio"></span>
+                    <span class="court-list-info">
+                      <strong>City Court 2</strong>
+                      <span>220 Parkside Dr, Austin, TX 78703</span>
+                      <em>2.8 miles away · <a href="https://maps.google.com/?q=City+Court+2+Austin" target="_blank" rel="noopener">View map</a></em>
+                    </span>
+                  </label>
+                  <label class="court-list-item">
+                    <input type="radio" name="court" value="riverside" />
+                    <span class="court-list-radio"></span>
+                    <span class="court-list-info">
+                      <strong>Riverside Court</strong>
+                      <span>760 Riverside Dr, Austin, TX 78704</span>
+                      <em>4.6 miles away · <a href="https://maps.google.com/?q=Riverside+Court+Austin" target="_blank" rel="noopener">View map</a></em>
+                    </span>
+                  </label>
+                </div>
+              </div>
+
+              <!-- Suggest another training place (injected here when button is clicked) -->
+              <div id="suggest-place-list"></div>
+
+              <!-- Add suggest button -->
+              <button class="add-backup-btn" type="button" id="add-suggest-btn">
+                <span aria-hidden="true">+</span> Suggest Another Training Place
+              </button>
+
+              <div class="request-step-actions">
+                <button class="request-next" type="button" data-next-step>Next</button>
+              </div>
+            </section>
+
+            <!-- ── Step 3: Enter Preferred Times ── -->
+            <section class="request-section" data-request-step="3" hidden>
+              <div class="booking-section-label">
+                <h2>Enter Preferred times</h2>
+                <span class="booking-section-counter">3/4</span>
+              </div>
+
+              <!-- Lessons / best time -->
+              <div class="booking-card">
+                <div class="booking-card-title-row">
+                  <div>
+                    <strong class="booking-card-title">Lessons</strong>
+                    <span class="booking-card-subtitle">We'll try this first</span>
+                  </div>
+                  <span class="booking-card-chip">Choose Best Time</span>
+                </div>
+                <label>Day
+                  <select name="best-day">
+                    <option>Tuesday</option>
+                    <option>Monday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                    <option>Sunday</option>
+                  </select>
+                </label>
+                <div class="availability-time-row">
+                  <label>From<input type="time" name="best-start" value="16:00" /></label>
+                  <label>To<input type="time" name="best-end" value="20:00" /></label>
+                </div>
+              </div>
+
+              <!-- Backup time cards (dynamic) -->
+              <div class="backup-times-list" id="backup-times-list">
+                <div class="booking-card" data-backup-index="1">
+                  <div class="booking-card-title-row">
+                    <div>
+                      <strong class="booking-card-title">Backup Time</strong>
+                      <span class="booking-card-subtitle">Used if your best time isn't available</span>
+                    </div>
+                    <button class="booking-card-remove" type="button" aria-label="Remove backup time" hidden>✕</button>
+                  </div>
+                  <label>Day
+                    <select name="backup-day-1">
+                      <option>Thursday</option>
+                      <option>Monday</option>
+                      <option>Tuesday</option>
+                      <option>Wednesday</option>
+                      <option>Friday</option>
+                      <option>Saturday</option>
+                      <option>Sunday</option>
+                    </select>
+                  </label>
+                  <div class="availability-time-row">
+                    <label>From<input type="time" name="backup-start-1" value="17:00" /></label>
+                    <label>To<input type="time" name="backup-end-1" value="19:00" /></label>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Add backup button -->
+              <button class="add-backup-btn" type="button" id="add-backup-btn">
+                <span aria-hidden="true">+</span> Add another backup time
+              </button>
+
+              <!-- Anything to avoid -->
+              <div class="booking-card">
+                <div class="booking-card-title-row">
+                  <strong class="booking-card-title">Anything to avoid?</strong>
+                  <span class="booking-card-optional">Optional</span>
+                </div>
+                <label>Day
+                  <select name="avoid-day">
+                    <option value="">—</option>
+                    <option>Monday</option>
+                    <option>Tuesday</option>
+                    <option>Wednesday</option>
+                    <option>Thursday</option>
+                    <option>Friday</option>
+                    <option>Saturday</option>
+                    <option>Sunday</option>
+                  </select>
+                </label>
+                <div class="availability-time-row">
+                  <label>From<input type="time" name="avoid-start" /></label>
+                  <label>To<input type="time" name="avoid-end" /></label>
+                </div>
+              </div>
+
+              <div class="request-step-actions">
+                <button class="request-next" type="button" data-next-step>Next</button>
+              </div>
+            </section>
+
+            <!-- ── Step 4: Contact & review ── -->
+            <section class="request-section" data-request-step="4" hidden>
+              <div class="booking-section-label">
+                <h2>Contact &amp; review</h2>
+                <span class="booking-section-counter">4/4</span>
+              </div>
+
+              <!-- Summary card -->
+              <div class="booking-summary-card" aria-label="Request summary">
+                <div class="booking-summary-header">
+                  <strong>Your request summary</strong>
+                  <span>Review before sending</span>
+                </div>
+                <div class="booking-summary-items">
+                  <div class="booking-summary-item">
+                    <span>Prior experience</span>
+                    <strong>Trained with Coach Maya before</strong>
+                  </div>
+                  <div class="booking-summary-item">
+                    <span>Preferred times</span>
+                    <strong>Tue evening, Thu evening, Sat morning or afternoon</strong>
+                  </div>
+                  <div class="booking-summary-item">
+                    <span>Location</span>
+                    <strong>Midtown Tennis Club</strong>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Notice card -->
+              <div class="booking-notice-card">
+                Coach Maya will review this with her weekly calendar. This is not a confirmed lesson yet.
+              </div>
+
+              <!-- Contact fields -->
+              <div class="booking-card">
+                <div>
+                  <strong class="booking-card-title">Contact</strong>
+                  <span class="booking-card-subtitle">How would you like to be contacted?</span>
+                </div>
+                <label>Name
+                  <input type="text" name="name" placeholder="Mina Chen" />
+                </label>
+                <label>Phone
+                  <input type="tel" name="phone" placeholder="+1 512 555 0144" />
+                </label>
+                <label>Email
+                  <input type="email" name="email" placeholder="parent@example.com" />
+                </label>
+              </div>
+
+              <div class="request-step-actions">
+                <button class="request-submit" type="button" id="submit-btn">Send lesson request</button>
+              </div>
+            </section>
+
+          </form>
+        </div><!-- /booking-form-shell -->
+
+        <!-- ══════════════════════════════════════════
+             SUCCESS SCREEN
+        ══════════════════════════════════════════ -->
+        <section class="booking-success" id="booking-success" hidden aria-live="polite" aria-label="Request sent confirmation">
+
+          <div class="success-ball-stage">
+            <div class="success-ring success-ring-2"></div>
+            <div class="success-ring success-ring-1"></div>
+            <div class="success-ball">
+              <div class="success-ball-seam"></div>
+            </div>
+          </div>
+
+          <div class="success-body-wrap">
+            <div class="success-copy">
+              <p class="success-eyebrow">Request sent 🎾</p>
+              <h1 class="success-title">Maya has your request</h1>
+              <p class="success-desc">She builds her weekly schedule every Sunday. Once your slot is confirmed, you'll get a message with the date, time, and court.</p>
+            </div>
+
+            <div class="success-timeline">
+              <div class="success-step">
+                <div class="success-step-dot">1</div>
+                <div class="success-step-text">
+                  <strong>Maya reviews your request</strong>
+                  <span>She'll match your preferred times with her open slots</span>
+                </div>
+              </div>
+              <div class="success-connector"></div>
+              <div class="success-step">
+                <div class="success-step-dot">2</div>
+                <div class="success-step-text">
+                  <strong>You'll hear back within 1–2 days</strong>
+                  <span>A confirmation message with the exact lesson details</span>
+                </div>
+              </div>
+              <div class="success-connector"></div>
+              <div class="success-step">
+                <div class="success-step-dot success-step-dot--lime">✓</div>
+                <div class="success-step-text">
+                  <strong>See you on the court</strong>
+                  <span>Pack your racket — you're all set</span>
+                </div>
+              </div>
+            </div>
+
+            <button class="success-home-btn" id="success-home-btn" type="button">Back to home</button>
+          </div>
+
+        </section>
+
+      </section>
+    </main>
+
+    <script>
+      // ── Landing ↔ Form ↔ Success toggle ──────────────────────────
+      const landingEl   = document.getElementById("booking-landing");
+      const formShellEl = document.getElementById("booking-form-shell");
+      const successEl   = document.getElementById("booking-success");
+
+      function showLanding() {
+        landingEl.hidden   = false;
+        formShellEl.hidden = true;
+        successEl.hidden   = true;
+      }
+
+      function showForm(step) {
+        landingEl.hidden   = true;
+        formShellEl.hidden = false;
+        successEl.hidden   = true;
+        showRequestStep(step || 1);
+      }
+
+      function showSuccess() {
+        landingEl.hidden   = true;
+        formShellEl.hidden = true;
+        successEl.hidden   = false;
+        window.scrollTo(0, 0);
+      }
+
+      document.getElementById("booking-start-btn").addEventListener("click", () => showForm(1));
+      document.getElementById("success-home-btn").addEventListener("click", () => showLanding());
+      document.getElementById("submit-btn").addEventListener("click", () => showSuccess());
+
+      // ── Multi-step navigation ─────────────────────────────────────
+      const requestSteps = Array.from(document.querySelectorAll("[data-request-step]"));
+      let activeRequestStep = 1;
+
+      function showRequestStep(step) {
+        activeRequestStep = Math.max(1, Math.min(requestSteps.length, step));
+        requestSteps.forEach((section) => {
+          const isActive = Number(section.dataset.requestStep) === activeRequestStep;
+          section.hidden = !isActive;
+          section.classList.toggle("is-active", isActive);
+        });
+      }
+
+      document.querySelectorAll("[data-next-step]").forEach((btn) => {
+        btn.addEventListener("click", () => showRequestStep(activeRequestStep + 1));
+      });
+
+      // Nav bar back: step 1 → landing, step 2+ → previous step
+      document.getElementById("booking-nav-back").addEventListener("click", () => {
+        if (activeRequestStep === 1) {
+          showLanding();
+        } else {
+          showRequestStep(activeRequestStep - 1);
+        }
+      });
+
+      // ── Backup times: add / remove ────────────────────────────────
+      const days = ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"];
+      const backupList  = document.querySelector("#backup-times-list");
+      const addBackupBtn = document.querySelector("#add-backup-btn");
+      const MAX_BACKUPS = 4;
+
+      function dayOptions(selectedDay) {
+        return days.map((d) => `<option ${d === selectedDay ? "selected" : ""}>${d}</option>`).join("");
+      }
+
+      function updateRemoveButtons() {
+        const cards = backupList.querySelectorAll(".booking-card");
+        cards.forEach((card) => {
+          const btn = card.querySelector(".booking-card-remove");
+          if (btn) btn.hidden = cards.length <= 1;
+        });
+        addBackupBtn.hidden = cards.length >= MAX_BACKUPS;
+      }
+
+      function attachRemoveListener(card) {
+        card.querySelector(".booking-card-remove")?.addEventListener("click", () => {
+          card.remove();
+          reindexBackups();
+          updateRemoveButtons();
+        });
+      }
+
+      function reindexBackups() {
+        backupList.querySelectorAll(".booking-card").forEach((card, i) => {
+          const idx = i + 1;
+          card.dataset.backupIndex = idx;
+          card.querySelector("select").name = `backup-day-${idx}`;
+          const [startInput, endInput] = card.querySelectorAll("input[type='time']");
+          if (startInput) startInput.name = `backup-start-${idx}`;
+          if (endInput)   endInput.name   = `backup-end-${idx}`;
+        });
+      }
+
+      addBackupBtn.addEventListener("click", () => {
+        const count = backupList.querySelectorAll(".booking-card").length + 1;
+        const card  = document.createElement("div");
+        card.className = "booking-card";
+        card.dataset.backupIndex = count;
+        card.innerHTML = `
+          <div class="booking-card-title-row">
+            <div>
+              <strong class="booking-card-title">Backup Time</strong>
+              <span class="booking-card-subtitle">Used if your best time isn't available</span>
+            </div>
+            <button class="booking-card-remove" type="button" aria-label="Remove backup time">✕</button>
+          </div>
+          <label>Day<select name="backup-day-${count}">${dayOptions("Saturday")}</select></label>
+          <div class="availability-time-row">
+            <label>From<input type="time" name="backup-start-${count}" value="09:00" /></label>
+            <label>To<input type="time" name="backup-end-${count}" value="13:00" /></label>
+          </div>
+        `;
+        backupList.appendChild(card);
+        attachRemoveListener(card);
+        updateRemoveButtons();
+      });
+
+      attachRemoveListener(backupList.querySelector(".booking-card"));
+      updateRemoveButtons();
+
+      // ── Suggest Another Training Place: show / hide ───────────────
+      const suggestList   = document.querySelector("#suggest-place-list");
+      const addSuggestBtn = document.querySelector("#add-suggest-btn");
+
+      addSuggestBtn.addEventListener("click", () => {
+        suggestList.innerHTML = `
+          <div class="booking-card">
+            <div class="booking-card-title-row">
+              <div>
+                <strong class="booking-card-title">Suggest Another Training Place</strong>
+                <span class="booking-card-subtitle">Add the court name, address, or any detail.</span>
+              </div>
+              <button class="booking-card-remove" type="button" aria-label="Remove suggestion">✕</button>
+            </div>
+            <textarea name="court-notes" rows="4" placeholder="Court information"></textarea>
+          </div>
+        `;
+        addSuggestBtn.hidden = true;
+        suggestList.querySelector(".booking-card-remove").addEventListener("click", () => {
+          suggestList.innerHTML = "";
+          addSuggestBtn.hidden = false;
+        });
+      });
+    </script>
+  </body>
+</html>
